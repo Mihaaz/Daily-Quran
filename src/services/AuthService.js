@@ -9,11 +9,15 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const provider = new GoogleAuthProvider()
 
+
+
     return (
         <AuthContext.Provider
             value={{
                 user,
-                setUser,
+                setUser: async (user) => {
+                    setUser(user)
+                },
                 loginWithGoogle: async () => {
                     console.log("google")
                     signInWithRedirect(auth, provider)

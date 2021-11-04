@@ -1,26 +1,48 @@
-import React, { useEffect, useContext } from "react";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Home from "./../screens/Home";
-import Settings from "./../screens/Settings";
-import { createUser, checkNickName } from "./../services/ApiService";
-const Tab = createMaterialTopTabNavigator();
-import { AuthContext } from "./../services/AuthService";
+import React, { useEffect, useContext, useState } from "react"
+import Tab from "./../navigator/Tab"
+import { auth } from "./../services/firebase"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import {
+    onAuthStateChanged,
+} from "firebase/auth"
+import { AuthContext } from "./../services/AuthService"
+import Loading from "../screens/Loading"
+import Login from "../screens/Login"
+import NickName from "../screens/NickName"
+
+const Stack = createNativeStackNavigator()
 
 export default function Main() {
-  const { user } = useContext(AuthContext);
-  useEffect(() => {
-    console.log(user);
-    checkNickName(user).then((val) => {
-      if (val) {
-        console.log("ddddd");
-      }
-    });
-  }, []);
+    const { user, setUser } = useContext(AuthContext)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
 
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Settings" component={Settings} />
-    </Tab.Navigator>
-  );
+        const subscriber = onAuthStateChanged(auth, (user) => {
+            console.log(user)
+            setUser(user)
+            setLoading(false)
+        })
+        return subscriber
+    }, [])
+
+    if (loading) {
+        return <Loading />
+    }
+
+    return (
+
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {user == null ? (
+                <>
+                    <Stack.Screen name="SignIn" component={Login} />
+                </>
+            ) : (
+                <>
+                    <Stack.Screen name="Tab" component={Tab} />
+                    <Stack.Screen name="NickName" component={NickName} />
+                </>
+            )}
+        </Stack.Navigator>
+    )
+
 }
