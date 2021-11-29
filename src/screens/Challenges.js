@@ -15,10 +15,12 @@ import {
 } from "react-native";
 import { Button, View, Text } from "react-native";
 import { AuthContext } from "../services/AuthService";
-import { getStudents, getUsers, setCities } from "./../services/ApiService";
+import { getUsers } from "./../services/ApiService";
 import { updateUser } from "./../services/ApiService";
+import { useNavigation } from "@react-navigation/core";
 
 export default function Challenges() {
+  const navigation = useNavigation();
   useEffect(() => {
     getUsers().then((d) => {
       console.log(d);
@@ -53,7 +55,9 @@ export default function Challenges() {
           backgroundColor: "#C2CCFF",
         }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ramadanChallenge")}
+        >
           <Text
             style={{
               width: 200,
@@ -71,7 +75,9 @@ export default function Challenges() {
             Ramadan Challenge
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("fridayChallenge")}
+        >
           <Text
             style={{
               width: 200,
@@ -89,7 +95,7 @@ export default function Challenges() {
             Friday Challenge
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("sleepTight")}>
           <Text
             style={{
               width: 200,

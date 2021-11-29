@@ -31,13 +31,29 @@ export const getUsers = async (user) => {
 
 export const getChapter = async (id) => {
   let d = [];
-  const querySnapshot = await getDocs(
-    collection(fireStore, `quran/${id}/ayah`)
-  );
-  querySnapshot.forEach((doc) => {
-    d.push(doc.data());
-  });
-  return d;
+  let name = null;
+
+  const docRef = doc(fireStore, `quran/${id}`);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    let myUser = docSnap.data();
+    if (myUser.name != undefined) {
+      name = myUser.name;
+    }
+
+    const querySnapshot = await getDocs(
+      collection(fireStore, `quran/${id}/ayah`)
+    );
+
+    querySnapshot.forEach((doc) => {
+      d.push(doc.data());
+    });
+  }
+
+  return {
+    name: name,
+    ayah: d,
+  };
 };
 
 export const checkNickName = async (user) => {

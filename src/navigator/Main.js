@@ -7,6 +7,9 @@ import { AuthContext } from "./../services/AuthService";
 import Loading from "../screens/Loading";
 import Login from "../screens/Login";
 import NickName from "../screens/NickName";
+import ramadanChallenge from "../screens/ramdanChallenge";
+import fridayChallenge from "../screens/fridayChallenge";
+import sleepTight from "../screens/sleepTight";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +38,9 @@ export default function Main() {
         <>
           <Stack.Screen name="Tab" component={Tab} />
           <Stack.Screen name="NickName" component={NickName} />
+          <Stack.Screen name="ramadanChallenge" component={ramadanChallenge} />
+          <Stack.Screen name="fridayChallenge" component={fridayChallenge} />
+          <Stack.Screen name="sleepTight" component={sleepTight} />
         </>
       )}
     </Stack.Navigator>

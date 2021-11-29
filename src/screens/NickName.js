@@ -15,7 +15,7 @@ import {
   AppRegistry,
   StyleSheet,
 } from "react-native";
-import { getStudents, getUsers, setCities } from "../services/ApiService";
+
 import { useNavigation } from "@react-navigation/core";
 import { AuthContext } from "./../services/AuthService";
 import { updateUser } from "./../services/ApiService";
